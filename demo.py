@@ -1,10 +1,6 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Apr  3 12:00:22 2018
 
-@author: gustav
-"""
 import os
 from io import BytesIO
 import tarfile
