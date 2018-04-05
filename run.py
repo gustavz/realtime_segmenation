@@ -3,7 +3,7 @@
 """
 Created on Tue Apr  3 12:17:38 2018
 
-@author: gustav
+@author: github.com/GustavZ
 """
 import os
 import tarfile
@@ -23,12 +23,12 @@ else:
     with open("config.sample.yml", 'r') as ymlfile:
         cfg = yaml.load(ymlfile)
         
-VIDEO_INPUT         = cfg['video_input']
-FPS_INTERVAL       	= cfg['fps_interval']
-ALPHA				= cfg['alpha']
-MODEL_NAME          = cfg['model_name']
-MODEL_PATH          = cfg['model_path']
-DOWNLOAD_BASE		= cfg['download_base']
+VIDEO_INPUT	= cfg['video_input']
+FPS_INTERVAL	= cfg['fps_interval']
+ALPHA		= cfg['alpha']
+MODEL_NAME	= cfg['model_name']
+MODEL_PATH	= cfg['model_path']
+DOWNLOAD_BASE	= cfg['download_base']
 
 # Hardcoded COCO_VOC Labels
 LABEL_NAMES = np.asarray([

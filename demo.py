@@ -1,5 +1,8 @@
-#@title Imports
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
 
+
+#@title Imports
 import os
 from io import BytesIO
 import tarfile
@@ -13,9 +16,8 @@ from PIL import Image
 
 import tensorflow as tf
 
+
 #@title Helper methods
-
-
 class DeepLabModel(object):
   """Class to load deeplab model and run inference."""
 
@@ -154,8 +156,8 @@ LABEL_NAMES = np.asarray([
 FULL_LABEL_MAP = np.arange(len(LABEL_NAMES)).reshape(len(LABEL_NAMES), 1)
 FULL_COLOR_MAP = label_to_color_image(FULL_LABEL_MAP)
 
-#@title Select and download models {display-mode: "form"}
 
+#@title Select and download models {display-mode: "form"}
 MODEL_NAME = 'mobilenetv2_coco_voctrainaug'  # @param ['mobilenetv2_coco_voctrainaug', 'mobilenetv2_coco_voctrainval', 'xception_coco_voctrainaug', 'xception_coco_voctrainval']
 
 _DOWNLOAD_URL_PREFIX = 'http://download.tensorflow.org/models/'
@@ -183,8 +185,8 @@ print('download completed! loading DeepLab model...')
 MODEL = DeepLabModel(download_path)
 print('model loaded successfully!')
 
-#@title Run on sample images {display-mode: "form"}
 
+#@title Run on sample images {display-mode: "form"}
 SAMPLE_IMAGE = 'image1'  # @param ['image1', 'image2', 'image3']
 IMAGE_URL = ''  #@param {type:"string"}
 
