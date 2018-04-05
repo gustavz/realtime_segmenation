@@ -1,10 +1,5 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Apr  3 12:00:22 2018
+#@title Imports
 
-@author: gustav
-"""
 import os
 from io import BytesIO
 import tarfile
@@ -18,8 +13,9 @@ from PIL import Image
 
 import tensorflow as tf
 
-
 #@title Helper methods
+
+
 class DeepLabModel(object):
   """Class to load deeplab model and run inference."""
 
@@ -67,7 +63,7 @@ class DeepLabModel(object):
     resized_image = image.convert('RGB').resize(target_size, Image.ANTIALIAS)
     batch_seg_map = self.sess.run(
         self.OUTPUT_TENSOR_NAME,
-        feed_dict={self.INPUT_TENSOR_NAME: [np.asarray(image)]})
+        feed_dict={self.INPUT_TENSOR_NAME: [np.asarray(resized_image)]})
     seg_map = batch_seg_map[0]
     return resized_image, seg_map
 
@@ -158,8 +154,8 @@ LABEL_NAMES = np.asarray([
 FULL_LABEL_MAP = np.arange(len(LABEL_NAMES)).reshape(len(LABEL_NAMES), 1)
 FULL_COLOR_MAP = label_to_color_image(FULL_LABEL_MAP)
 
-
 #@title Select and download models {display-mode: "form"}
+
 MODEL_NAME = 'mobilenetv2_coco_voctrainaug'  # @param ['mobilenetv2_coco_voctrainaug', 'mobilenetv2_coco_voctrainval', 'xception_coco_voctrainaug', 'xception_coco_voctrainval']
 
 _DOWNLOAD_URL_PREFIX = 'http://download.tensorflow.org/models/'
@@ -187,8 +183,8 @@ print('download completed! loading DeepLab model...')
 MODEL = DeepLabModel(download_path)
 print('model loaded successfully!')
 
-
 #@title Run on sample images {display-mode: "form"}
+
 SAMPLE_IMAGE = 'image1'  # @param ['image1', 'image2', 'image3']
 IMAGE_URL = ''  #@param {type:"string"}
 
@@ -208,7 +204,6 @@ def run_visualization(url):
 
   print('running deeplab on image %s...' % url)
   resized_im, seg_map = MODEL.run(orignal_im)
-  print ("seg_map:\n{}".format(seg_map))
 
   vis_segmentation(resized_im, seg_map)
 
