@@ -24,12 +24,10 @@ else:
         cfg = yaml.load(ymlfile)
         
 VIDEO_INPUT         = cfg['video_input']
-WIDTH               = cfg['width']
-HEIGHT              = cfg['height']
-MODEL_NAME          = cfg['model_name']
-MODEL_PATH          = cfg['model_path']
 FPS_INTERVAL       	= cfg['fps_interval']
 ALPHA				= cfg['alpha']
+MODEL_NAME          = cfg['model_name']
+MODEL_PATH          = cfg['model_path']
 DOWNLOAD_BASE		= cfg['download_base']
 
 # Hardcoded COCO_VOC Labels
@@ -87,10 +85,10 @@ def load_frozenmodel():
 
 
 def segmentation(detection_graph,label_names):
-	vs = WebcamVideoStream(VIDEO_INPUT,WIDTH,HEIGHT).start()
+	# fixed input sizes as model needs resize either way
+	vs = WebcamVideoStream(VIDEO_INPUT,640,480).start() 
 	resize_ratio = 1.0 * 513 / max(vs.real_width,vs.real_height)
 	target_size = (int(resize_ratio * vs.real_width), int(resize_ratio * vs.real_height))
-	print resize_ratio, target_size
 	config = tf.ConfigProto(allow_soft_placement=True)
 	config.gpu_options.allow_growth=True
 	fps = FPS2(FPS_INTERVAL).start()

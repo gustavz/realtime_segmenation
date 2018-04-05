@@ -1,13 +1,10 @@
 ---
 ## Segmentation
 video_input: 0              # Input Must be OpenCV readable 
-width: 600                  # OpenCV only supports 4:3 formats others will be converted
-height: 600                 # 600x600 leads to 640x480
 fps_interval: 5             # Interval [s] to print fps of the last interval in console
 alpha: 0.3                  # mask overlay factor
 
 ## Model
 model_name: 'deeplabv3_mnv2_pascal_train_aug_2018_01_29'
 model_path: 'models/deeplabv3_mnv2_pascal_train_aug/frozen_inference_graph.pb'
-label_path: 'object_detection/data/mscoco_label_map.pbtxt'
 download_base: 'http://download.tensorflow.org/models/'
