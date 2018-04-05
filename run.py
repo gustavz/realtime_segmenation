@@ -3,7 +3,7 @@
 """
 Created on Tue Apr  3 12:17:38 2018
 
-@author: GustavZ
+@author: github.com/GustavZ
 """
 import os
 import tarfile
