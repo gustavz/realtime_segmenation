@@ -3,6 +3,8 @@ Realtime semantic segmentation based on [Tensorflow's DeepLab Project](https://g
 <br />
 <br />
 ## usage
+copy `config.sample.yml` as `config.yml`, change parameters only inside there
+<br />
 run `demo.py` for the original tensorflow demo
 <br />
 run `run.py` for realtime segmentation using openCV
