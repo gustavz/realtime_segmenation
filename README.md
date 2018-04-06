@@ -7,6 +7,6 @@ Realtime semantic segmentation based on [Tensorflow's DeepLab Project](https://g
 - run `demo.py` for the original tensorflow demo
 - run `run.py` for realtime segmentation using openCV
 <br />
-<br />
+
 ## current performance
 - nvidia jetson tx2: **4 fps**
