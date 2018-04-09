@@ -12,8 +12,8 @@ import numpy as np
 import tensorflow as tf
 import yaml
 import cv2
-from stuff.helper import FPS2, WebcamVideoStream
-
+from stuff.helper import TimeLiner
+from tensorflow.python.client import timeline
 
 ## LOAD CONFIG PARAMS ##
 if (os.path.isfile('config.yml')):
@@ -29,6 +29,15 @@ ALPHA			= cfg['alpha']
 MODEL_NAME		= cfg['model_name']
 MODEL_PATH		= cfg['model_path']
 DOWNLOAD_BASE	= cfg['download_base']
+IMAGE_PATH      = cfg['image_path']
+CPU_ONLY 		= cfg['cpu_only']
+
+if CPU_ONLY:
+	os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+	DEVICE = '_CPU'
+else:
+	DEVICE = '_GPU'
+
 
 # Hardcoded COCO_VOC Labels
 LABEL_NAMES = np.asarray([
@@ -85,33 +94,47 @@ def load_frozenmodel():
 
 
 def segmentation(detection_graph,label_names):
-	# fixed input sizes as model needs resize either way
-	vs = WebcamVideoStream(VIDEO_INPUT,640,480).start() 
-	resize_ratio = 1.0 * 513 / max(vs.real_width,vs.real_height)
-	target_size = (int(resize_ratio * vs.real_width), int(resize_ratio * vs.real_height))
+	# load images
+	images = []
+	for root, dirs, files in os.walk(IMAGE_PATH):
+		for file in files:
+		    if file.endswith(".jpg"):
+		        images.append(os.path.join(root, file))
+	images.sort()
+	# TF config
 	config = tf.ConfigProto(allow_soft_placement=True)
 	config.gpu_options.allow_growth=True
-	fps = FPS2(FPS_INTERVAL).start()
 	print("> Starting Segmentaion")
 	with detection_graph.as_default():
 		with tf.Session(graph=detection_graph) as sess:
-		    while vs.isActive():
-		        image = cv2.resize(vs.read(),target_size)
+		    for im in images:
+		    	# input
+		        image = cv2.imread(im)
+		        height, width, channels = image.shape
+		        resize_ratio = 1.0 * 513 / max(width,height)
+		        target_size = (int(resize_ratio * width), int(resize_ratio * height))
+		        resized_image = cv2.resize(image, target_size)
+		        # TF session + timing
+		        options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+		        run_metadata = tf.RunMetadata()
+		        many_runs_timeline = TimeLiner()
 		        batch_seg_map = sess.run('SemanticPredictions:0',
-		        				feed_dict={'ImageTensor:0': [cv2.cvtColor(image, cv2.COLOR_BGR2RGB)]})
+		        				feed_dict={'ImageTensor:0': [cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)]},
+		        				options=options, run_metadata=run_metadata)
+		        fetched_timeline = timeline.Timeline(run_metadata.step_stats)
+		        chrome_trace = fetched_timeline.generate_chrome_trace_format()
+		        many_runs_timeline.update_timeline(chrome_trace)
+		        with open('test_timeline{}.json'.format(DEVICE), 'w') as f:
+		        	f.write(chrome_trace)
 		        # visualization
 		        seg_map = batch_seg_map[0]
 		        seg_image = create_colormap(seg_map).astype(np.uint8)
 		        labels = label_names[np.unique(seg_map)]
-		        cv2.addWeighted(seg_image,ALPHA,image,1-ALPHA,0,image)
-		        vis_text(image,"fps: {}".format(fps.fps_local()),1)
-		        vis_text(image,"labels: {}".format(labels),2)
-		        cv2.imshow('segmentation',image)
-		        if cv2.waitKey(1) & 0xFF == ord('q'):
-		        	break	
-		        fps.update()
-	fps.stop()
-	vs.stop()
+		        cv2.addWeighted(seg_image,ALPHA,resized_image,1-ALPHA,0,resized_image)
+		        vis_text(image,"labels: {}".format(labels),1)
+		        cv2.imshow('segmentation',resized_image)
+		        if cv2.waitKey(2000) & 0xFF == ord('q'):
+		        	break
 	cv2.destroyAllWindows()
 
 def main():

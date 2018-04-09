@@ -4,6 +4,10 @@ video_input: 0              # Input Must be OpenCV readable
 fps_interval: 5             # Interval [s] to print fps of the last interval in console
 alpha: 0.3                  # mask overlay factor
 
+## Testing
+image_path: 'test_images'   # path for test.py test_images
+cpu_only: False             # CPU Placement for speed test
+
 ## Model
 model_name: 'deeplabv3_mnv2_pascal_train_aug_2018_01_29'
 model_path: 'models/deeplabv3_mnv2_pascal_train_aug/frozen_inference_graph.pb'
