@@ -24,11 +24,11 @@ else:
         cfg = yaml.load(ymlfile)
         
 VIDEO_INPUT		= cfg['video_input']
-FPS_INTERVAL	= cfg['fps_interval']
+FPS_INTERVAL		= cfg['fps_interval']
 ALPHA			= cfg['alpha']
 MODEL_NAME		= cfg['model_name']
 MODEL_PATH		= cfg['model_path']
-DOWNLOAD_BASE	= cfg['download_base']
+DOWNLOAD_BASE		= cfg['download_base']
 
 # Hardcoded COCO_VOC Labels
 LABEL_NAMES = np.asarray([
@@ -69,7 +69,7 @@ def download_model():
 # Visualize Text on OpenCV Image
 def vis_text(image,string,pos):
 	cv2.putText(image,string, (10,30*pos),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.75, (77, 255, 9), 2)
+		    cv2.FONT_HERSHEY_SIMPLEX, 0.75, (77, 255, 9), 2)
 
 # Load frozen Model   
 def load_frozenmodel():
@@ -98,7 +98,7 @@ def segmentation(detection_graph,label_names):
 		    while vs.isActive():
 		        image = cv2.resize(vs.read(),target_size)
 		        batch_seg_map = sess.run('SemanticPredictions:0',
-		        				feed_dict={'ImageTensor:0': [cv2.cvtColor(image, cv2.COLOR_BGR2RGB)]})
+						 feed_dict={'ImageTensor:0': [cv2.cvtColor(image, cv2.COLOR_BGR2RGB)]})
 		        # visualization
 		        seg_map = batch_seg_map[0]
 		        seg_image = create_colormap(seg_map).astype(np.uint8)
@@ -108,7 +108,7 @@ def segmentation(detection_graph,label_names):
 		        vis_text(image,"labels: {}".format(labels),2)
 		        cv2.imshow('segmentation',image)
 		        if cv2.waitKey(1) & 0xFF == ord('q'):
-		        	break	
+				break	
 		        fps.update()
 	fps.stop()
 	vs.stop()
