@@ -24,12 +24,12 @@ else:
         cfg = yaml.load(ymlfile)
         
 VIDEO_INPUT		= cfg['video_input']
-FPS_INTERVAL	= cfg['fps_interval']
+FPS_INTERVAL		= cfg['fps_interval']
 ALPHA			= cfg['alpha']
 MODEL_NAME		= cfg['model_name']
 MODEL_PATH		= cfg['model_path']
-DOWNLOAD_BASE	= cfg['download_base']
-IMAGE_PATH      = cfg['image_path']
+DOWNLOAD_BASE		= cfg['download_base']
+IMAGE_PATH		= cfg['image_path']
 CPU_ONLY 		= cfg['cpu_only']
 
 if CPU_ONLY:
