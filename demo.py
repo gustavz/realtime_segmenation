@@ -67,6 +67,8 @@ class DeepLabModel(object):
         self.OUTPUT_TENSOR_NAME,
         feed_dict={self.INPUT_TENSOR_NAME: [np.asarray(resized_image)]})
     seg_map = batch_seg_map[0]
+    print np.asarray(resized_image)
+    print seg_map
     return resized_image, seg_map
 
 

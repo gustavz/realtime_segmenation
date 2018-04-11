@@ -135,6 +135,10 @@ def segmentation(detection_graph,label_names):
 		        cv2.imshow('segmentation',resized_image)
 		        if cv2.waitKey(2000) & 0xFF == ord('q'):
 		        	break
+		        # DEBUG
+		        print ("\n{}".format(im))
+		        print ("seg_map:\n{}".format(seg_map))
+		        print ("unique seg_map:\n{}".format(np.unique(seg_map)))
 	cv2.destroyAllWindows()
 
 def main():
