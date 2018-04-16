@@ -70,7 +70,7 @@ def download_model():
 
 # Visualize Text on OpenCV Image
 def vis_text(image,string,pos):
-    cv2.putText(image,string, (pos),
+    cv2.putText(image,string,(pos),
         cv2.FONT_HERSHEY_SIMPLEX, 0.75, (77, 255, 9), 2)
 
 # Load frozen Model
@@ -107,19 +107,18 @@ def segmentation(detection_graph,label_names):
                 cv2.addWeighted(seg_image,ALPHA,image,1-ALPHA,0,image)
                 vis_text(image,"fps: {}".format(fps.fps_local()),(10,30))
                 # boxes (ymin, xmin, ymax, xmax)
+                minArea = 500
                 map_labeled = measure.label(seg_map, connectivity=1)
-                boxes = [area.bbox for area in measure.regionprops(map_labeled)]
-                for box in boxes:
-                    p1 = (box[1], box[0])
-                    p2 = (box[3], box[2])
-                    cv2.rectangle(image, p1, p2, (77,255,9), 2)
-                    """
-                    try:
-                        center = (p2[0]-p1[0],p2[1]-p1[1])
-                        vis_text(image,label_names[seg_map[center]],(p1[0],p1[1]-10))
-                    except:
-                        print "out of bounds"
-                    """
+                for region in measure.regionprops(map_labeled):
+                    if region.area > minArea:
+                        box = region.bbox
+                        label = region.label
+                        coords = region.coords[0]
+                        p1 = (box[1], box[0])
+                        p2 = (box[3], box[2])
+                        cv2.rectangle(image, p1, p2, (77,255,9), 2)
+                        vis_text(image,label_names[seg_map[tuple(coords)]],(p1[0],p1[1]-10))
+
                 cv2.imshow('segmentation',image)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
