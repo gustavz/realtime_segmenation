@@ -31,6 +31,8 @@ ALPHA           = cfg['alpha']
 MODEL_NAME      = cfg['model_name']
 MODEL_PATH      = cfg['model_path']
 DOWNLOAD_BASE   = cfg['download_base']
+BBOX            = cfg['bbox']
+MINAREA         = cfg['minArea']
 
 # Hardcoded COCO_VOC Labels
 LABEL_NAMES = np.asarray([
@@ -107,18 +109,15 @@ def segmentation(detection_graph,label_names):
                 cv2.addWeighted(seg_image,ALPHA,image,1-ALPHA,0,image)
                 vis_text(image,"fps: {}".format(fps.fps_local()),(10,30))
                 # boxes (ymin, xmin, ymax, xmax)
-                minArea = 500
-                map_labeled = measure.label(seg_map, connectivity=1)
-                for region in measure.regionprops(map_labeled):
-                    if region.area > minArea:
-                        box = region.bbox
-                        label = region.label
-                        coords = region.coords[0]
-                        p1 = (box[1], box[0])
-                        p2 = (box[3], box[2])
-                        cv2.rectangle(image, p1, p2, (77,255,9), 2)
-                        vis_text(image,label_names[seg_map[tuple(coords)]],(p1[0],p1[1]-10))
-
+                if BBOX:
+                    map_labeled = measure.label(seg_map, connectivity=1)
+                    for region in measure.regionprops(map_labeled):
+                        if region.area > MINAREA:
+                            box = region.bbox
+                            p1 = (box[1], box[0])
+                            p2 = (box[3], box[2])
+                            cv2.rectangle(image, p1, p2, (77,255,9), 2)
+                            vis_text(image,label_names[seg_map[tuple(region.coords[0])]],(p1[0],p1[1]-10))
                 cv2.imshow('segmentation',image)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break

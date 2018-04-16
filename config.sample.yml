@@ -3,6 +3,8 @@
 video_input: 0              # Input Must be OpenCV readable 
 fps_interval: 5             # Interval [s] to print fps of the last interval in console
 alpha: 0.3                  # mask overlay factor
+bbox : True                 # compute boundingbox in postprocessing
+minArea: 500                # min Pixel Area to apply bounding boxes (avoid noise)
 
 ## Testing
 image_path: 'test_images'   # path for test.py test_images
