@@ -11,3 +11,7 @@ Realtime semantic segmentation based on [Tensorflow's DeepLab Project](https://g
 
 ## current performance
 - nvidia jetson tx2: **4 fps**
+
+# HELP NEEDED
+Please tell if you are able to run `run.py` on your nvidia jetson tx2 and if you get correct mask results!
+I face straneg results depending on which tensorflow version I use, please tell me your setup!
