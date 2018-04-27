@@ -1,7 +1,7 @@
 # realtime_segmenation
 Realtime semantic segmentation based on [Tensorflow's DeepLab Project](https://github.com/tensorflow/models/tree/master/research/deeplab).
 <br />
-<img src="stuff/seg_demo.gif" width="50.0%">
+<img src="test_images/seg_demo.gif" width="50.0%">
 
 ## usage
 - copy `config.sample.yml` as `config.yml`, change parameters only inside there
