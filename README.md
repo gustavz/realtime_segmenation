@@ -1,7 +1,6 @@
 # realtime_segmenation
 Realtime semantic segmentation based on [Tensorflow's DeepLab Project](https://github.com/tensorflow/models/tree/master/research/deeplab).
 <br />
-<img src="test_images/seg_demo.gif" width="50.0%">
 
 ## usage
 - copy `config.sample.yml` as `config.yml`, change parameters only inside there
@@ -11,8 +10,7 @@ Realtime semantic segmentation based on [Tensorflow's DeepLab Project](https://g
 <br />
 
 ## current performance
-- nvidia jetson tx2: **4 fps**
-<br />
+<img src="test_images/seg_demo.gif" width="33.3%">
 
 ## HELP NEEDED
 Please tell me if you are able to run `run.py` on your nvidia jetson tx2 and if you get correct mask results!
