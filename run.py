@@ -16,7 +16,6 @@ from stuff.helper import FPS2, WebcamVideoStream
 from skimage import measure
 
 
-
 ## LOAD CONFIG PARAMS ##
 if (os.path.isfile('config.yml')):
     with open("config.yml", 'r') as ymlfile:
@@ -126,10 +125,8 @@ def segmentation(detection_graph,label_names):
     vs.stop()
     cv2.destroyAllWindows()
 
-def main():
+
+if __name__ == '__main__':
     download_model()
     graph = load_frozenmodel()
     segmentation(graph, LABEL_NAMES)
-
-if __name__ == '__main__':
-    main()

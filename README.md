@@ -1,7 +1,8 @@
 # realtime_segmenation
-Realtime semantic segmentation based on [Tensorflow's DeepLab Project](https://github.com/tensorflow/models/tree/master/research/deeplab) with an extreme Focus on Performance. 
+Realtime semantic segmentation based on [Tensorflow's DeepLab Project](https://github.com/tensorflow/models/tree/master/research/deeplab).
 <br />
-<br />
+<img src="stuff/seg_demo.gif" width="50.0%">
+
 ## usage
 - copy `config.sample.yml` as `config.yml`, change parameters only inside there
 - run `demo.py` for the original tensorflow demo
